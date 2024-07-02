@@ -1,8 +1,11 @@
 param(
-    [string]$Name
+    [string]$Name,
+    [switch]$Local
 )
 
-if (Test-Path "$Env:USERPROFILE\.senv.conf" -PathType Leaf) {
+if ($Local -and (Test-Path ".senv.conf" -PathType Leaf)) {
+    $file = ".senv.conf"
+} elseif (Test-Path "$Env:USERPROFILE\.senv.conf" -PathType Leaf) {
     $file = "$Env:USERPROFILE\.senv.conf"
 } elseif (Test-Path "$PSScriptRoot\.senv.conf" -PathType Leaf) {
     $file = "$PSScriptRoot\.senv.conf"
@@ -39,6 +42,10 @@ foreach($line in Get-Content $file) {
     if ($PSBoundParameters.ContainsKey('Name') -and $senvName -eq $Name) {
         return $newSenv
     } 
+}
+
+if ($Name -ne "") {
+    throw "A senv with name '$Name' does not exist"
 }
 
 return $senvs

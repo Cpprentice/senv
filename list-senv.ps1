@@ -1,4 +1,8 @@
-$senvs = & "$PSScriptRoot\get-senv.ps1"
+param(
+    [switch]$Local
+)
+
+$senvs = & "$PSScriptRoot\get-senv.ps1" -Local:$Local
 
 foreach($senv in $senvs) {
     Write-Host $senv.name

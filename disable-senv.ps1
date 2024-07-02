@@ -1,8 +1,9 @@
 param(
-    [Parameter(Mandatory=$True)][string]$Name
+    [Parameter(Mandatory=$True)][string]$Name,
+    [switch]$Local
 )
 
-$senv = & "$PSScriptRoot\get-senv.ps1" -Name $Name
+$senv = & "$PSScriptRoot\get-senv.ps1" -Name $Name -Local:$Local
 
 for ($i = 0; $i -lt $senv.values.length; $i += 1) {
     $variable = $senv.variables[$i]
